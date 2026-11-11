@@ -1,29 +1,12 @@
 图标
 ====
 
-`icon.svg` 为本仓库原创，按插件规范的线条风格手写，未用图片模型生成。从模板新建的插件换成自己的图标时，这里按实际情况重写。
+`icon.png` 取自上游 scanservjs 仓库的 `app-ui/src/icons/android-chrome-512x512.png`
+（https://github.com/sbs20/scanservjs ，提交 v3.3.0），未作修改。
 
-许可证
-------
+- 版权与许可：scanservjs 以 GPL-2.0 发布（https://github.com/sbs20/scanservjs/blob/master/LICENSE），
+  图标随项目分发，版权归上游作者 Stefan Brown（sbs20）及贡献者所有。
+- 商标说明："scanservjs" 名称与标志是上游项目的标志；本插件包对它的使用仅为指示上游应用，
+  不构成对商标来源的更改或暗示背书。
 
-MIT License
-
-Copyright (c) 2026 Wonton plugin authors
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+插件包其余文件（清单、配置、文档、截图）按本仓库 LICENSE（MIT）分发。
