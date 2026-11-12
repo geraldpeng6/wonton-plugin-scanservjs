@@ -8,6 +8,9 @@
 
 web_assert() { grep -q '<title>scanservjs</title>'; }
 
+# 扫描仪地址：探针给一台 eSCL 扫描仪，冒烟每次安装都带上；地址是文档用地址，不会真连。
+SMOKE_SETTINGS=(airscan_devices='"Scanner" = "http://192.0.2.10/eSCL"')
+
 # 页面是纯前端，身份由网关会话保证；应用自己没有“当前用户”接口。
 IDENTITY_NA=1
 
@@ -44,5 +47,29 @@ data_check() {
   if [[ -n "$id" ]]; then
     docker exec "$id" cat "/documents/扫描件/$marker.txt" 2>/dev/null | grep -qF "$marker" \
       || { echo "共享文件夹里的 $marker.txt 读不回来"; return 1; }
+  fi
+}
+
+
+# 设置值要真进到容器：airscan_devices 由 SMOKE_SETTINGS 给，saned_hosts 由调用方的 --setting 给（没给就跳过）。
+extra_check() {
+  local id airscan saned
+  id="$(_container io.github.sbs20.scanservjs scanservjs)"
+  [[ -n "$id" ]] || { extra_item FAIL 设置 "找不到 scanservjs 容器"; return 1; }
+  airscan="$(docker exec "$id" printenv AIRSCAN_DEVICES)"
+  if [[ "$airscan" == '"Scanner" = "http://192.0.2.10/eSCL"' ]]; then
+    extra_item PASS 设置 "AIRSCAN_DEVICES=$airscan"
+  else
+    extra_item FAIL 设置 "AIRSCAN_DEVICES 是「$airscan」，不是 SMOKE_SETTINGS 给的地址"
+    return 1
+  fi
+  saned="$(docker exec "$id" printenv SANED_NET_HOSTS)"
+  if [[ -z "$saned" ]]; then
+    extra_item N/A 设置-命令行 "没给 --setting saned_hosts"
+  elif [[ "$saned" == 192.0.2.11 ]]; then
+    extra_item PASS 设置-命令行 "SANED_NET_HOSTS=$saned"
+  else
+    extra_item FAIL 设置-命令行 "SANED_NET_HOSTS 是「$saned」，不是 --setting 给的地址"
+    return 1
   fi
 }
