@@ -12,12 +12,16 @@ web_assert() { grep -q '<title>scanservjs</title>'; }
 IDENTITY_NA=1
 
 _container() { # <插件 id> <服务名>：本实例里这个服务的容器
-  local inst="${SMOKE_INSTANCE:-}" args=(--filter "label=wonton.plugin=$1" --filter "label=wonton.service=$2")
-  if [[ -z "$inst" && -n "${SMOKE_BASE:-}" ]]; then
-    inst="${SMOKE_BASE#http://}"; inst="${inst%%.*}"
+  local inst="${SMOKE_INSTANCE:-}" id
+  local base=(--filter "label=wonton.plugin=$1" --filter "label=wonton.service=$2")
+  if [[ -n "$inst" ]]; then
+    id="$(docker ps --format '{{.Names}}' "${base[@]}" --filter "label=wonton.instance=${inst//-/}" | head -1)"
   fi
-  [[ -z "$inst" ]] || args+=(--filter "label=wonton.instance=${inst//-/}")
-  docker ps --format '{{.Names}}' "${args[@]}" | head -1
+  # SMOKE_INSTANCE 没导出或推导不准时退回只按插件和服务标签找。
+  if [[ -z "${id:-}" && -n "${SMOKE_BASE:-}" ]]; then
+    id="$(docker ps --format '{{.Names}}' "${base[@]}" | head -1)"
+  fi
+  printf '%s' "${id:-}"
 }
 
 data_write() {
