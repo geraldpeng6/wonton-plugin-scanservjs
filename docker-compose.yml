@@ -8,7 +8,7 @@ services:
       TZ: ${TZ}
       # 两项设置原样交给上游入口脚本：AIRSCAN_DEVICES 追加进 /etc/sane.d/airscan.conf，
       # SANED_NET_HOSTS 追加进 /etc/sane.d/net.conf；为空时入口脚本跳过。
-      # :- 兜底：核心还没实现设置注入（见 PR“底座的问题”），引用不存在的变量会让安装失败。
+      # :- 兜底：核心检查清单时按默认值试渲染，引用不存在的变量会让安装失败。
       AIRSCAN_DEVICES: ${WONTON_SETTING_AIRSCAN_DEVICES:-}
       SANED_NET_HOSTS: ${WONTON_SETTING_SANED_HOSTS:-}
     volumes:
