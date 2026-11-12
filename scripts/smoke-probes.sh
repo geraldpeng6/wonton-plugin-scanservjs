@@ -9,9 +9,11 @@
 web_assert() { grep -q '<title>scanservjs</title>'; }
 
 # 扫描仪地址：探针给一台 eSCL 扫描仪，冒烟每次安装都带上；地址是文档用地址，不会真连。
+# shellcheck disable=SC2034 # 套件读这些声明
 SMOKE_SETTINGS=(airscan_devices='"Scanner" = "http://192.0.2.10/eSCL"')
 
 # 页面是纯前端，身份由网关会话保证；应用自己没有“当前用户”接口。
+# shellcheck disable=SC2034 # 套件读这些声明
 IDENTITY_NA=1
 
 _container() { # <插件 id> <服务名>：本实例里这个服务的容器
